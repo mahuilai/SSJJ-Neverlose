@@ -1,6 +1,18 @@
-# 《生死狙击》单美化模组 (SingleSkinMod)
+# 《生死狙击》NEVERLOSE 风格单美化模组 (SingleSkinMod)
 
 > **高性能 · 零帧率损耗 · 原生反作弊无感旁路 · 现代电竞 HUD · 资产模型热重置**
+
+---
+
+## 📸 界面效果预览 (Screenshots)
+
+<p align="center">
+  <img src="assets/screenshots/preview_weapon_models.png" alt="官方武器模型库与中文反射换模" width="49%">
+  <img src="assets/screenshots/preview_visual_filter.png" alt="雨爱光影色彩调节与预设切换" width="49%">
+</p>
+
+* **左图**：C++ DXGI 原生硬件加速中文菜单、八百余款官方武器/角色中文反射解析库、ECS 资产热替换与一键还原。
+* **右图**：雨爱光影调色引擎、RGB 色相实时调节、赛博紫夜/暮光暖阳/冰晶极地预设及 3D 世界相机落雪。
 
 ---
 
