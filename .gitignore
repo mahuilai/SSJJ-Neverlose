@@ -1,0 +1,38 @@
+# Visual Studio & MSBuild
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+
+# Compiled Output
+*.dll
+*.pdb
+*.lib
+*.exp
+*.ilk
+*.exe
+*.log
+
+# Whitelist project dependencies
+!deps/
+!deps/*.dll
+
+# C/C++ Precompiled & Intermediate
+*.pch
+*.ipch
+*.idb
+*.tlog
+*.lastbuildstate
+*.obj
+
+# Backup & Local Config
+SingleSkinMod_Backups/
+config.json
+imgui.ini
+AvoidCapture.txt

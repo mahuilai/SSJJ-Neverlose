@@ -1,0 +1,149 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <OutputType>Library</OutputType>
+    <RootNamespace>SingleSkinMod</RootNamespace>
+    <AssemblyName>SingleSkinMod</AssemblyName>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <OutputPath>..\..\bin\managed\$(Configuration)\</OutputPath>
+
+    <!-- 优先级 1: 仓库本地 deps 目录 -->
+    <LocalDepsDir>$(MSBuildThisFileDirectory)..\..\deps</LocalDepsDir>
+
+    <!-- 优先级 2: 游戏运行目录 (提供 Unity / BepInEx 运行时核心) -->
+    <GameDir Condition="'$(GameDir)' == '' and '$(SSJJ_GAME_DIR)' != ''">$(SSJJ_GAME_DIR)</GameDir>
+    <GameDir Condition="'$(GameDir)' == '' and Exists('D:\SSJJ-4399\battle\10_64\SSJJ_BattleClient_Unity_Data\Managed\UnityEngine.dll')">D:\SSJJ-4399\battle\10_64</GameDir>
+    <GameDir Condition="'$(GameDir)' == '' and Exists('D:\SSJJ-4399\battle\16_64\SSJJ_BattleClient_Unity_Data\Managed\UnityEngine.dll')">D:\SSJJ-4399\battle\16_64</GameDir>
+
+    <GameManagedDir>$(GameDir)\SSJJ_BattleClient_Unity_Data\Managed</GameManagedDir>
+    <BepInExCoreDir>$(GameDir)\BepInEx\core</BepInExCoreDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- BepInEx & Harmony -->
+    <Reference Include="BepInEx">
+      <HintPath Condition="Exists('$(BepInExCoreDir)\BepInEx.dll')">$(BepInExCoreDir)\BepInEx.dll</HintPath>
+      <HintPath Condition="!Exists('$(BepInExCoreDir)\BepInEx.dll')">D:\SSJJ_Mods\SSJJSkinMod\third_party\BepInEx\BepInEx\core\BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath Condition="Exists('$(BepInExCoreDir)\0Harmony.dll')">$(BepInExCoreDir)\0Harmony.dll</HintPath>
+      <HintPath Condition="!Exists('$(BepInExCoreDir)\0Harmony.dll')">D:\SSJJ_Mods\SSJJSkinMod\third_party\BepInEx\BepInEx\core\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!-- Unity Engines -->
+    <Reference Include="UnityEngine">
+      <HintPath>$(GameManagedDir)\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>$(GameManagedDir)\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+      <HintPath>$(GameManagedDir)\UnityEngine.IMGUIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+      <HintPath>$(GameManagedDir)\UnityEngine.AudioModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>$(GameManagedDir)\UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>$(GameManagedDir)\UnityEngine.UIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ImageConversionModule">
+      <HintPath>$(GameManagedDir)\UnityEngine.ImageConversionModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>$(GameManagedDir)\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+      <HintPath>$(GameManagedDir)\UnityEngine.InputLegacyModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>$(GameManagedDir)\UnityEngine.ParticleSystemModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="UnityEngine.JSONSerializeModule">
+      <HintPath>$(GameManagedDir)\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+
+    <!-- Game Engine & Network Dependencies (优先使用仓库内 deps，自动兜底 GameManagedDir) -->
+    <Reference Include="Assembly-CSharp">
+      <HintPath Condition="Exists('$(LocalDepsDir)\Assembly-CSharp.dll')">$(LocalDepsDir)\Assembly-CSharp.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\Assembly-CSharp.dll')">$(GameManagedDir)\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Entitas">
+      <HintPath Condition="Exists('$(LocalDepsDir)\Entitas.dll')">$(LocalDepsDir)\Entitas.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\Entitas.dll')">$(GameManagedDir)\Entitas.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SSJJBase_Library">
+      <HintPath Condition="Exists('$(LocalDepsDir)\SSJJBase_Library.dll')">$(LocalDepsDir)\SSJJBase_Library.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\SSJJBase_Library.dll')">$(GameManagedDir)\SSJJBase_Library.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SSJJMath_Library">
+      <HintPath Condition="Exists('$(LocalDepsDir)\SSJJMath_Library.dll')">$(LocalDepsDir)\SSJJMath_Library.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\SSJJMath_Library.dll')">$(GameManagedDir)\SSJJMath_Library.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SSJJEntitas_Library">
+      <HintPath Condition="Exists('$(LocalDepsDir)\SSJJEntitas_Library.dll')">$(LocalDepsDir)\SSJJEntitas_Library.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\SSJJEntitas_Library.dll')">$(GameManagedDir)\SSJJEntitas_Library.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SSJJ.Contract">
+      <HintPath Condition="Exists('$(LocalDepsDir)\SSJJ.Contract.dll')">$(LocalDepsDir)\SSJJ.Contract.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\SSJJ.Contract.dll')">$(GameManagedDir)\SSJJ.Contract.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="SSJJNetworking_Library">
+      <HintPath Condition="Exists('$(LocalDepsDir)\SSJJNetworking_Library.dll')">$(LocalDepsDir)\SSJJNetworking_Library.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\SSJJNetworking_Library.dll')">$(GameManagedDir)\SSJJNetworking_Library.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="weaponPredicateNet.net">
+      <HintPath Condition="Exists('$(LocalDepsDir)\weaponPredicateNet.net.dll')">$(LocalDepsDir)\weaponPredicateNet.net.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\weaponPredicateNet.net.dll')">$(GameManagedDir)\weaponPredicateNet.net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="physics.net">
+      <HintPath Condition="Exists('$(LocalDepsDir)\physics.net.dll')">$(LocalDepsDir)\physics.net.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\physics.net.dll')">$(GameManagedDir)\physics.net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="base.net">
+      <HintPath Condition="Exists('$(LocalDepsDir)\base.net.dll')">$(LocalDepsDir)\base.net.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\base.net.dll')">$(GameManagedDir)\base.net.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="configNet">
+      <HintPath Condition="Exists('$(LocalDepsDir)\configNet.dll')">$(LocalDepsDir)\configNet.dll</HintPath>
+      <HintPath Condition="!Exists('$(LocalDepsDir)\configNet.dll')">$(GameManagedDir)\configNet.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\bin\native\$(Configuration)\SingleSkinMod.Native.dll" LogicalName="SingleSkinMod.Native.dll" />
+  </ItemGroup>
+</Project>
